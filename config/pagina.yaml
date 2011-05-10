@@ -1,3 +1,9 @@
 name: Pagina Test
 description: Pagina CMS
-dropbox_folder: Public/Pagina
+dropbox_id: 20301790
+dropbox_path: Pagina
+
+# If your Dropbox public link is like this
+# http://dl.dropbox.com/u/20301790/Pagina/sitemap.text
+# the dropbox_id is the parameter after '/u/'
+# and the dropbox_folder is the next parameter
