@@ -1,5 +1,4 @@
 require 'sinatra/base'
-#require 'maruku'
 
 require File.expand_path('page', File.dirname(__FILE__))
 
@@ -12,8 +11,8 @@ module Pagina
     end
     
     get '/:name' do
-      #@page = Pagina::Page.find(:name)
-      #raise Sinatra::NotFound if @page.nill?
+      @page = Pagina::Page.new(:name)
+      raise Sinatra::NotFound if @page.nil?
       erb :page
     end
     
