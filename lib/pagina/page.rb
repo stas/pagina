@@ -6,14 +6,11 @@ module Pagina
     
     def initialize(name)
       sitemap = Pagina::Sitemap.new
-      page = sitemap.find(name)
+      page_name = name.to_s + '.txt'
+      page = sitemap.find(page_name)
       if !page.nil?
-        @title = page.title
-        @content = page.content
-      else
-        # temporary data
-        @title = 'title'
-        @content = 'content'
+        @title = page[:content].split('\n')[0]
+        @content = page[:content]
       end
     end
     

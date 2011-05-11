@@ -1,7 +1,8 @@
 name: Pagina Test
 description: Pagina CMS
 dropbox_id: 20301790
-dropbox_path: Pagina
+dropbox_path: /Pagina/
+dropbox_url: https://dl.dropbox.com/u/
 
 # If your Dropbox public link is like this
 # http://dl.dropbox.com/u/20301790/Pagina/sitemap.text

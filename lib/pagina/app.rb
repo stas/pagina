@@ -13,6 +13,7 @@ module Pagina
         config = Pagina::Config.new
         @site_name = config.name
         @site_description = config.description
+        @reload_secret = config.secret_query
       end
     end
     
@@ -22,7 +23,7 @@ module Pagina
     
     get '/:name' do
       load_config
-      @page = Pagina::Page.new(:name)
+      @page = Pagina::Page.new(params[:name])
       raise Sinatra::NotFound if @page.nil?
       erb :page
     end
