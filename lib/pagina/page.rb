@@ -1,4 +1,4 @@
-require 'maruku'
+require 'kramdown'
 
 module Pagina
   class Page
@@ -8,14 +8,15 @@ module Pagina
       sitemap = Pagina::Sitemap.new
       page_name = name.to_s + '.txt'
       page = sitemap.find(page_name)
+      
       if !page.nil?
-        @title = page[:content].split('\n')[0]
+        @title = page[:content].split("\n")[0]
         @content = page[:content]
       end
     end
     
     def body_html
-      Maruku.new(@content).to_html
+      Kramdown::Document.new(@content).to_html
     end
     
   end

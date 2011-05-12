@@ -14,15 +14,18 @@ module Pagina
     
     def load_page(name)
       file_uri = @dropbox_url + @dropbox_id.to_s + @dropbox_path + name
-      request = open(file_uri)
-      
-      if request.status[0].to_i == 200
-        page = {
-          :content => request.string,
-          :last_modified => request.meta['date']
-        }
-      else
-        page = nil
+      begin
+        request = open(file_uri)
+        if request.status[0].to_i == 200
+          page = {
+            :content => request.string,
+            :etag => request.meta['etag']
+          }
+        else
+          nil
+        end
+      rescue OpenURI::HTTPError
+        nil
       end
     end
     
@@ -38,7 +41,6 @@ module Pagina
           @cache.set(name, page)
         end
       end
-      
       return page
     end
   end

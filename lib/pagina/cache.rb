@@ -11,10 +11,12 @@ module Pagina
     
     def try_memcache
       if !@config.memcache_ip.nil?
-        @dalli = Dalli::Client.new(@config.memcache_ip, 
-          :username => @config.memcache_user, 
-          :password => @config.memcache_pass, 
-          :expires_in => 300)
+        @dalli = Dalli::Client.new(
+          @config.memcache_ip, 
+            :username => @config.memcache_user, 
+            :password => @config.memcache_pass, 
+            :expires_in => 300
+          )
       end
     end
   end

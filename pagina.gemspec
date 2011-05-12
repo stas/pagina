@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files           = `git ls-files`.split("\n")
   s.require_paths   = ['lib']
   
-  s.add_dependency('maruku', '>= 0.6.0')
-  s.add_dependency('sinatra', '1.1.2')
+  s.add_dependency('kramdown')
+  s.add_dependency('sinatra')
   s.add_dependency('dalli')
 end
