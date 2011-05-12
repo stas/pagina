@@ -5,4 +5,4 @@ Bundler.require(:default)
 $LOAD_PATH.unshift(::File.expand_path('lib', ::File.dirname(__FILE__)))
 require 'pagina/app'
 
-Pagina::App.run!
+run Pagina::App

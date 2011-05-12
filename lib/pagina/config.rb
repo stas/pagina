@@ -6,7 +6,9 @@ module Pagina
     attr_accessor :settings, :yaml_data
     
     def initialize
-      @settings = %w[ name description dropbox_id dropbox_path dropbox_url ]
+      @settings = %w[
+        name description dropbox_id dropbox_path dropbox_url memcache_ip memcache_user memcache_pass
+      ]
       
       yaml_path = File.expand_path('config/pagina.yaml', Pagina::App.root)
       if File.exist?(yaml_path)

@@ -1,19 +1,21 @@
+require 'rubygems'
 require 'sinatra/base'
 
-require File.expand_path('config', File.dirname(__FILE__))
-require File.expand_path('page', File.dirname(__FILE__))
-require File.expand_path('sitemap', File.dirname(__FILE__))
+require 'pagina/config'
+require 'pagina/sitemap'
+require 'pagina/page'
 
 module Pagina
   class App < Sinatra::Base
-    set :views, File.expand_path('../../views', File.dirname(__FILE__))
+    set :app_file, __FILE__
+    set :root, File.expand_path('../../', File.dirname(__FILE__))
+    #set :environment, :production
     
     helpers do
       def load_config
         config = Pagina::Config.new
         @site_name = config.name
         @site_description = config.description
-        @reload_secret = config.secret_query
       end
     end
     

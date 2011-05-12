@@ -15,5 +15,5 @@ Gem::Specification.new do |s|
   
   s.add_dependency('maruku', '>= 0.6.0')
   s.add_dependency('sinatra', '1.1.2')
-  s.add_dependency('shotgun', '>= 0.8') # useful for development
+  s.add_dependency('dalli')
 end

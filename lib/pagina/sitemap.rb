@@ -1,5 +1,7 @@
 require 'open-uri'
 
+require 'pagina/cache'
+
 module Pagina
   class Sitemap
     def initialize
@@ -7,26 +9,37 @@ module Pagina
       @dropbox_id = config.dropbox_id
       @dropbox_path = config.dropbox_path
       @dropbox_url = config.dropbox_url
-      @pages = {} # TODO: Load this from memcache
+      @cache = Pagina::Cache.new.dalli
     end
     
     def load_page(name)
       file_uri = @dropbox_url + @dropbox_id.to_s + @dropbox_path + name
       request = open(file_uri)
+      
       if request.status[0].to_i == 200
-        @pages[name] = {
+        page = {
           :content => request.string,
           :last_modified => request.meta['date']
         }
+      else
+        page = nil
       end
     end
     
     def find(name)
-      if @pages.include? name
-        @pages[name]
-      else
-        load_page(name)
+      page = nil
+      if !@cache.nil?
+        page = @cache.get(name)
       end
+      
+      if page.nil?
+        page = load_page(name)
+        if !@cache.nil?
+          @cache.set(name, page)
+        end
+      end
+      
+      return page
     end
   end
 end
