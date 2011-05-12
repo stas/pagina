@@ -32,10 +32,12 @@ module Pagina
     end
     
     not_found do
+      load_config
       erb :'404'
     end
     
     error do
+      load_config
       erb :'500'
     end
     
