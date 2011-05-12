@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email           = "stas@nerd.ro"
   s.homepage        = "http://stas.nerd.ro"
   
-  s.files           = `git ls-files -- {bin,lib,spec}/*`.split("\n")
+  s.files           = `git ls-files`.split("\n")
   s.require_paths   = ['lib']
   
   s.add_dependency('maruku', '>= 0.6.0')
