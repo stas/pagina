@@ -22,6 +22,8 @@ While Dropbox takes care of ACL, revisions and hosting space, _Pagina_ uses
 * [Kramdown](http://kramdown.rubyforge.org)
 * [Dalli](https://github.com/mperham/dalli) (optional)
 
+This page [source](http://dl.dropbox.com/u/20301790/Pagina/index.txt)
+
 ### Example `config.ru`
 <pre>
 require 'rubygems'
@@ -40,5 +42,3 @@ end
 
 run PaginaApp
 </pre>
-
-This page [source](http://dl.dropbox.com/u/20301790/Pagina/index.txt)
