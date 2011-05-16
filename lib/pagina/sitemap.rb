@@ -6,10 +6,14 @@ module Pagina
   class Sitemap
     def initialize
       config = Pagina::Config.new
-      @dropbox_id = config.dropbox_id
-      @dropbox_path = config.dropbox_path
-      @dropbox_url = config.dropbox_url
-      @cache = Pagina::Cache.new.dalli
+      if !config.nil?
+        @dropbox_id = config.dropbox_id
+        @dropbox_path = config.dropbox_path
+        @dropbox_url = config.dropbox_url
+        @cache = Pagina::Cache.new.dalli
+      else
+        return nil
+      end
     end
     
     def load_page(name)

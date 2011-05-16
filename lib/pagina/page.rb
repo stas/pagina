@@ -6,6 +6,9 @@ module Pagina
     
     def initialize(name)
       sitemap = Pagina::Sitemap.new
+      if sitemap.nil?
+        return nil
+      end
       page_name = name.to_s + '.txt'
       page = sitemap.find(page_name)
       
