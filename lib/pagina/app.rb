@@ -9,6 +9,9 @@ module Pagina
   class App < Sinatra::Base
     set :app_file, __FILE__
     set :root, File.expand_path('../../', File.dirname(__FILE__))
+    set :views, File.expand_path('views', App.root)
+    set :public, File.expand_path('public', App.root)
+    set :configs, File.expand_path('config', App.root)
     set :environment, :production
     
     helpers do

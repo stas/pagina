@@ -10,7 +10,7 @@ module Pagina
         name description dropbox_id dropbox_path dropbox_url memcache_ip memcache_user memcache_pass
       ]
       
-      yaml_path = File.expand_path('config/pagina.yaml', Pagina::App.root)
+      yaml_path = File.expand_path('pagina.yaml', Pagina::App.configs)
       if File.exist?(yaml_path)
         @yaml_data ||= YAML::load(IO::read(yaml_path))
       end
