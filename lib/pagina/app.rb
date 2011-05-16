@@ -7,11 +7,11 @@ require 'pagina/page'
 
 module Pagina
   class App < Sinatra::Base
-    set :app_file, __FILE__
-    set :root, File.expand_path('../../', File.dirname(__FILE__))
-    set :views, File.expand_path('views', App.root)
-    set :public, File.expand_path('public', App.root)
-    set :configs, File.expand_path('config', App.root)
+    set :app_file, nil
+    set :root, Proc.new { app_file && File.expand_path('../../', File.dirname(app_file)) }
+    set :views, Proc.new { root && File.join(root, 'views') }
+    set :public, Proc.new { root && File.join(root, 'public') }
+    set :config, Proc.new { root && File.join(root, 'config') }
     set :environment, :production
     
     helpers do
