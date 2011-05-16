@@ -39,7 +39,7 @@ module Pagina
         page = @cache.get(name)
       end
       
-      if page.nil?
+      if page.nil? && !@dropbox_id.nil?
         page = load_page(name)
         if !@cache.nil?
           @cache.set(name, page)

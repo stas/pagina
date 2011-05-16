@@ -20,7 +20,7 @@ module Pagina
     end
     
     def method_missing(method, *args)
-      name = method.to_s
+      name = method.to_s unless method.nil?
       if @settings.include?(name)
         if !@yaml_data.nil?
           @yaml_data[name]
