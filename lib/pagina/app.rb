@@ -8,18 +8,17 @@ require 'pagina/page'
 module Pagina
   class App < Sinatra::Base
     set :root, File.expand_path( '../../', File.dirname(__FILE__) )
+    set :config, File.join(root, 'config')
     set :views, File.join(root, 'views')
     set :public, File.join(root, 'public')
-    set :config, File.join(root, 'config')
     set :environment, :production
-    
-    @config = Pagina::Config.new
     
     helpers do
       def load_config
-        if !@config.nil?
-          @site_name = @config.name
-          @site_description = @config.description
+        config_data = Pagina::Config.new
+        if !config_data.nil?
+          @site_name = config_data.name
+          @site_description = config_data.description
         end
       end
     end
