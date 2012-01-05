@@ -39,6 +39,7 @@ run Pagina::App.new
 ### Example `Gemfile`
 
 ```ruby
+source "http://rubygems.org"
 gem 'dalli'
 gem 'kramdown'
 gem 'pagina', :git => 'git://github.com/stas/pagina.git'
