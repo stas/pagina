@@ -1,26 +1,70 @@
-require 'kramdown'
-
 module Pagina
+
+  ##
+  # Page Handler class
   class Page
-    attr_reader :title, :content
-    
+
+    attr_accessor :content, :title
+
+    ##
+    # Page Constructor
+    #
+    # @param [String] name, the requested page
     def initialize(name)
-      sitemap = Pagina::Sitemap.new
-      if sitemap.nil?
+      @name = name
+      @content = nil
+      @title = nil
+      @page_path = Pagina.dropbox_url +
+        Pagina.dropbox_id.to_s + '/' +
+        Pagina.dropbox_folder + '/' +
+        name + 
+        (!Pagina.page_extension.empty? ? Pagina.page_extension : '')
+      
+      raw_page = build
+      @title = raw_page.split("\n")[0] if !raw_page.nil?
+      @content = Kramdown::Document.new(raw_page).to_html if !raw_page.nil?
+    end
+
+    ##
+    # Try to build the page response
+    # If caching is set, it will be asked from cache
+    #
+    # @return [String], the raw page content
+    def build
+      result = nil
+      if Pagina.cache != false
+        result = Pagina.cache.get(@name)
+        Pagina.logger.info("Page loaded from cache: #{@name}")
+      end
+      
+      !result.nil? ? result : request_page
+    end
+
+    ##
+    # Try to request page data and format it to HTML
+    # If caching is set, the page content cache will be updated
+    #
+    # @return [String], the raw page content
+    def request_page
+      page_data = nil
+      begin
+        page_request = open(@page_path)
+        if page_request.status[0].to_i == 200
+          page_data = page_request.string
+        end
+      rescue OpenURI::HTTPError
+        Pagina.logger.info("Error trying to fetch: #{@name}")
         return nil
       end
-      page_name = name.to_s + '.txt'
-      page = sitemap.find(page_name)
-      
-      if !page.nil?
-        @title = page[:content].split("\n")[0]
-        @content = page[:content]
+
+      if Pagina.cache != false and !page_data.nil?
+        Pagina.cache.add(@name, page_data)
+        Pagina.logger.info("Page cached: #{@name}")
+      else
+        Pagina.logger.info("Page served uncached: #{@name}")
       end
+      page_data
     end
-    
-    def body_html
-      Kramdown::Document.new(@content).to_html
-    end
-    
-  end
-end
+
+  end #Page
+end # Pagina

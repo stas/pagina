@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><%= @site_name %> &mdash; <%= @page.title rescue 'Error' %></title>
+        <title><%= @site_name %> &mdash; <%= @title %></title>
         <meta charset="utf-8" />
     </head>
     <body>
-        <%= yield %>
+        <%= @content %>
     </body>
 </html>

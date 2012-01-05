@@ -1,10 +1,10 @@
 ## Pagina
 
->*Pagina* is a [Sinatra](http://www.sinatrarb.com/) web app that uses
+>*Pagina* is a small web app that uses
 a [Dropbox](http://dropbox.com) (or any other web) folder for site pages.
 
 *Pagina* was designed to run on [Heroku](http://heroku.com).
-It is very light and uses Memcache to speed up pageloads.
+It is very light (only hardcore dependency is `rack`) and uses Memcache to speed up pageloads.
 
 The idea was to deploy simple homepages using latest cloud services
 fast and cheap. And in the same time, spend minimum time for implementing
@@ -18,27 +18,28 @@ While Dropbox takes care of ACL, revisions and hosting space, _Pagina_ uses
  * MIT License
 
 ### Gems
-* [Sinatra](http://www.sinatrarb.com/)
-* [Kramdown](http://kramdown.rubyforge.org)
-* [Dalli](https://github.com/mperham/dalli) (optional)
+ * [Kramdown](http://kramdown.rubyforge.org)
+ * [Dalli](https://github.com/mperham/dalli) (optional)
 
 This page [source](http://dl.dropbox.com/u/20301790/Pagina/index.txt)
 
 ### Example `config.ru`
-<pre>
-require 'rubygems'
-require 'bundler/setup'
 
+```ruby
+require 'bundler/setup'
 Bundler.require
 
-require 'pagina/app'
+Pagina.dropbox_id 20301790
+Pagina.dropbox_folder 'Pagina'
+Pagina.layout File.expand_path '../test/layout.html', Pagina::ROOT
+run Pagina::App.new
+```ruby
 
-class PaginaApp < Pagina::App
-  # Uncomment lines below to customize views and use another config file
-  set :local_root, File.expand_path('./', File.dirname(__FILE__))
-  set :config, File.join(local_root, './')
-  #set :views, File.join(local_root, 'views')
-end
 
-run PaginaApp
-</pre>
+### Example `Gemfile`
+
+```ruby
+gem 'dalli'
+gem 'kramdown'
+gem 'pagina', :git => 'git://github.com/stas/pagina.git'
+```ruby
