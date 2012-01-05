@@ -39,7 +39,7 @@ module Pagina
 
   ##
   # If caching was set to true, load the memcache client
-  if !@options['cache'].nil? && @options['cache'] == true
+  if @options['cache'] == true
     Pagina.memcache_servers = ENV['MEMCACHE_SERVERS'].split(' ') if !ENV['MEMCACHE_SERVERS'].nil?
     Pagina.memcache_user = ENV['MEMCACHE_USERNAME'] if !ENV['MEMCACHE_USERNAME'].nil?
     Pagina.memcache_password = ENV['MEMCACHE_PASSWORD'] if !ENV['MEMCACHE_PASSWORD'].nil?
