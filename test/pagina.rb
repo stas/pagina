@@ -27,7 +27,7 @@ describe Pagina do
   end
 
   should 'load and use cache' do
-    Pagina.cache  Dalli::Client.new
+    Pagina.cache true
     Pagina.cache.class.should.equal Dalli::Client
     get '/'
     title = Pagina.cache.get('index')

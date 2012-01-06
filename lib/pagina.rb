@@ -36,13 +36,12 @@ module Pagina
     'logger'            => Logger.new(STDOUT)
   }
 
-
   ##
-  # If caching was set to true, load the memcache client
-  if @options['cache'] == true
-    Pagina.memcache_servers = ENV['MEMCACHE_SERVERS'].split(' ') if !ENV['MEMCACHE_SERVERS'].nil?
-    Pagina.memcache_user = ENV['MEMCACHE_USERNAME'] if !ENV['MEMCACHE_USERNAME'].nil?
-    Pagina.memcache_password = ENV['MEMCACHE_PASSWORD'] if !ENV['MEMCACHE_PASSWORD'].nil?
+  # Enables caching
+  def self.enable_cache
+    Pagina.memcache_servers ENV['MEMCACHE_SERVERS'].split(' ') if !ENV['MEMCACHE_SERVERS'].nil?
+    Pagina.memcache_user ENV['MEMCACHE_USERNAME'] if !ENV['MEMCACHE_USERNAME'].nil?
+    Pagina.memcache_password ENV['MEMCACHE_PASSWORD'] if !ENV['MEMCACHE_PASSWORD'].nil?
     @options['cache'] = Dalli::Client.new(
       Pagina.memcache_servers,
       :username => Pagina.memcache_user,
@@ -59,6 +58,8 @@ module Pagina
     new_value = args.first
     if @options.include? key
       @options[key] = new_value if !new_value.nil?
+      # If caching value changed, try to enable caching
+      enable_cache if key == 'cache' and new_value == true
       return @options[key]
     else
       super
