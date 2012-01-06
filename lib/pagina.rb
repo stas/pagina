@@ -14,6 +14,8 @@ module Pagina
   $LOAD_PATH.unshift(Pagina::ROOT)
   require 'pagina/app'
   require 'pagina/page'
+  require 'pagina/pages'
+  require 'pagina/assets'
 
 
   class << self
@@ -31,25 +33,12 @@ module Pagina
     'memcache_user'     => 'Your memcache user',
     'memcache_password' => 'Your memcache password',
     'layout'            => 'Full path to your layout file',
+    'public_folder'     => 'Full path to your css/js/images folder',
     'content_type'      => 'text/html',
     'e404_message'      => 'Sorry, not found!',
     'logger'            => Logger.new(STDOUT)
   }
-
-  ##
-  # Enables caching
-  def self.enable_cache
-    Pagina.memcache_servers ENV['MEMCACHE_SERVERS'].split(' ') if !ENV['MEMCACHE_SERVERS'].nil?
-    Pagina.memcache_user ENV['MEMCACHE_USERNAME'] if !ENV['MEMCACHE_USERNAME'].nil?
-    Pagina.memcache_password ENV['MEMCACHE_PASSWORD'] if !ENV['MEMCACHE_PASSWORD'].nil?
-    @options['cache'] = Dalli::Client.new(
-      Pagina.memcache_servers,
-      :username => Pagina.memcache_user,
-      :password => Pagina.memcache_password
-    )
-    Pagina.logger.info('Caching client started')
-  end
-
+  
   ##
   # Simple wrapper to ease access to our @options
   # If an argument is passed, the old value will be re-written
@@ -59,7 +48,6 @@ module Pagina
     if @options.include? key
       @options[key] = new_value if !new_value.nil?
       # If caching value changed, try to enable caching
-      enable_cache if key == 'cache' and new_value == true
       return @options[key]
     else
       super

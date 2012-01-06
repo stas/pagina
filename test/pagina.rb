@@ -2,10 +2,6 @@ describe Pagina do
   # We gonna test some urls
   behaves_like :rack_test
 
-  before do
-    
-  end
-
   should 'respond with a 200' do
     get '/'
     last_response.should.be.ok
@@ -28,11 +24,17 @@ describe Pagina do
 
   should 'load and use cache' do
     Pagina.cache true
-    Pagina.cache.class.should.equal Dalli::Client
     get '/'
     title = Pagina.cache.get('index')
+    Pagina.cache.class.should.equal Dalli::Client
     title = title.split("\n")
     last_response.body =~ /&mdash; #{title}<\/title>/
+  end
+
+  should 'serve static files' do
+    get '/test/layout.html'
+    last_response.should.be.ok
+    last_response =~ /#{Pagina.layout}/
   end
 
 end #Describe

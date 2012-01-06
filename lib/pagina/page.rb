@@ -20,9 +20,25 @@ module Pagina
         name + 
         (!Pagina.page_extension.empty? ? Pagina.page_extension : '')
       
+      enable_cache if Pagina.cache == true
+
       raw_page = build
       @title = raw_page.split("\n")[0] if !raw_page.nil?
       @content = Kramdown::Document.new(raw_page).to_html if !raw_page.nil?
+    end
+
+    ##
+    # Enables caching
+    def enable_cache
+      Pagina.memcache_servers ENV['MEMCACHE_SERVERS'].split(' ') if !ENV['MEMCACHE_SERVERS'].nil?
+      Pagina.memcache_user ENV['MEMCACHE_USERNAME'] if !ENV['MEMCACHE_USERNAME'].nil?
+      Pagina.memcache_password ENV['MEMCACHE_PASSWORD'] if !ENV['MEMCACHE_PASSWORD'].nil?
+      Pagina.cache Dalli::Client.new(
+        Pagina.memcache_servers,
+        :username => Pagina.memcache_user,
+        :password => Pagina.memcache_password
+      )
+      Pagina.logger.info('Caching client started')
     end
 
     ##
