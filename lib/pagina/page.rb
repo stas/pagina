@@ -50,7 +50,7 @@ module Pagina
       result = nil
       if Pagina.cache != false
         result = Pagina.cache.get(@name)
-        Pagina.logger.info("Page loaded from cache: #{@name}")
+        Pagina.logger.info("Page loaded from cache: #{@name}") if !result.nil?
       end
       
       !result.nil? ? result : request_page
