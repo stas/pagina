@@ -18,7 +18,7 @@ describe Pagina do
     last_response =~ /#{Pagina.e404_message}/
   end
 
-  should 'log to stdout' do
+  should 'redirect log to a file' do
     Pagina.logger.instance_variable_get('@logdev').dev.class.should.equal File
   end
 
