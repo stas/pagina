@@ -32,8 +32,9 @@ Bundler.require
 Pagina.dropbox_id 20301790
 Pagina.dropbox_folder 'Pagina'
 Pagina.layout File.expand_path '../test/layout.html', Pagina::ROOT
-run Pagina::App.new
-```ruby
+# Pagina.public_folder File.expand_path 'public' # To enable static files
+run Pagina::App.start
+```
 
 
 ### Example `Gemfile`
@@ -43,4 +44,4 @@ source "http://rubygems.org"
 gem 'dalli'
 gem 'kramdown'
 gem 'pagina', :git => 'git://github.com/stas/pagina.git'
-```ruby
+```
