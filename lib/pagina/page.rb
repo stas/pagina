@@ -66,7 +66,11 @@ module Pagina
       begin
         page_request = open(@page_path)
         if page_request.status[0].to_i == 200
-          page_data = page_request.string
+          if page_request.respond_to? 'string'
+            page_data = page_request.string
+          elsif page_request.respond_to? 'read'
+            page_data = page_request.read
+          end
         end
       rescue OpenURI::HTTPError
         Pagina.logger.info("Error trying to fetch: #{@name}")
