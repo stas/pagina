@@ -14,3 +14,5 @@ notifications:
 branches:
   only:
     - master
+
+script: "bacon test/init.rb"
