@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('kramdown')
   s.add_runtime_dependency('dalli')
 
-  s.add_development_dependency('rake')
   s.add_development_dependency('bacon')
+  s.add_development_dependency('rake')
+  s.add_development_dependency('rack-test')
 end
