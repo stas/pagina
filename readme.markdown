@@ -1,6 +1,6 @@
 ## Pagina
 
-![travis-ci status](https://secure.travis-ci.org/stas/pagina.png)
+[![travis-ci status](https://secure.travis-ci.org/stas/pagina.png)](http://travis-ci.org/#!/stas/pagina)
 
 >*Pagina* is a small web app that uses
 a [Dropbox](http://dropbox.com) (or any other web) folder for site pages.
