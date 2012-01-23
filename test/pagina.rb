@@ -22,13 +22,16 @@ describe Pagina do
     Pagina.cache.should.be.false
   end
 
-  should 'load and use cache' do
-    Pagina.cache true
-    get '/'
-    title = Pagina.cache.get('index')
-    Pagina.cache.class.should.equal Dalli::Client
-    title = title.split("\n")
-    last_response.body =~ /&mdash; #{title}<\/title>/
+  # Skip this test if no memcache servers are set
+  if !ENV['MEMCACHE_SERVERS'].nil?
+    should 'load and use cache' do
+      Pagina.cache true
+      get '/'
+      title = Pagina.cache.get('index')
+      Pagina.cache.class.should.equal Dalli::Client
+      title = title.split("\n")
+      last_response.body =~ /&mdash; #{title}<\/title>/
+    end
   end
 
   should 'serve static files' do
